@@ -1,0 +1,46 @@
+//快排实现方式一
+import java.util.Arrays;
+
+public class QuickSortTest {
+	public static void main(String[] args) {
+    //任意一个int型数组
+		int[] nums = {5,2,1,4,3,0,3};
+		quickSort(nums);
+		System.out.println(Arrays.toString(nums));
+	}
+	
+	public static void quickSort(int[] arr){
+		subSort(arr,0,arr.length - 1);
+	}
+	//实现数据交换功能
+	public static void swap(int[] nums,int i,int j){
+		int temp = nums[i];
+		nums[i] = nums[j];
+		nums[j] = temp;
+	}
+  //核心代码
+	public static void subSort(int[] nums,int left,int right){
+    //明确方法终止条件
+		if(left >= right){
+			return;
+		}
+    //标记初始位置为left-1
+		int partition = left - 1;
+    //这里使用数组最右侧元素作为中轴值
+		int pivot = nums[right];
+		for(int i = left;i <= right - 1;i++){
+      //若当前元素大于等于中轴值的数组元素，就没有必要把其换到左边去，partition不动，元素不必做交换
+			if(nums[i] < pivot){
+				partition++;
+				swap(nums,i,partition);
+			}
+		}
+    //使partition指向（完成当次排序后）第一个大于等于中轴值的元素
+		partition++;
+		swap(nums,partition,right);
+		//递归调用，为中轴左侧元素排序
+		subSort(nums,left,partition - 1);
+    //递归调用，为中轴右侧元素排序
+		subSort(nums,partition + 1,right);
+	}
+}
